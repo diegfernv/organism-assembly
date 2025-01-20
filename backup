@@ -1,0 +1,104 @@
+
+    nanoq -i ${file} \\
+        -o reads.fastq.gz \\
+        -vvv \\
+        -r nanoq_report_pre_filter.txt    
+
+
+
+
+
+
+
+
+
+
+
+
+
+#!/usr/bin/env nextflow
+
+process qualityControl {
+    container 'community.wave.seqera.io/library/nanoq_seqkit:307cb435f917fb85'
+
+    input:
+        path file
+        val min_length
+        val min_quality
+        val coverage
+        val organism_size
+
+    output:
+        path 'params_info.txt'
+    
+    publishDir { "results/${file.name.replace('.fastq.gz','')}/quality_control" }, mode: 'copy'
+    
+    script:
+    """
+    echo 'Nanoq version:' > params_info.txt
+    nanoq --version > params_info.txt
+    echo -e 'Used parameters\nfile: ${file}\nmin_length: ${min_length}\nmin_quality: ${min_quality}\ncoverage: ${coverage}\norganism_size: ${organism_size}' >> params_info.txt
+    
+    """
+}
+
+process runNanoq {
+    debug true
+    container 'community.wave.seqera.io/library/nanoq_seqkit:307cb435f917fb85'
+
+    input:
+        path file
+        val output_name
+        val command_pre_filter
+        val command_filter
+        val coverage
+        val organism_size
+        val report_name
+
+    
+    publishDir { "results/${file.name.replace('.fastq.gz','')}/quality_control" }, mode: 'copy'
+
+    script:
+    """
+    cmd="nanoq -i ${file} -o ${output_name}"
+    if [ ${report_name} != "" ]; then
+        cmd="${cmd} -vvv -r ${report_name}"
+    fi
+    \$cmd
+    """
+}
+
+def generateNanoqCommand(file, output_name, min_length, max_length, min_quality, report_name) {
+    cmd = "nanoq -i ${file} -o ${output_name}"
+    if (min_length != "") {
+        cmd = "${cmd} -l ${min_length}"
+    }
+    if (max_length != "") {
+        cmd = "${cmd} -m ${max_length}"
+    }
+    if (min_quality != "") {
+        cmd = "${cmd} -q ${min_quality}"
+    }
+    if (report_name != "") {
+        cmd = "${cmd} -vvv -r ${report_name}"
+    }
+    return """${cmd}"""
+}
+
+workflow {
+    file_ch = Channel.fromPath(params.input_file)
+    coverage_ch = Channel.of(params.coverage)
+    organism_size_ch = Channel.of(params.organism_size)
+    report_name_ch = Channel.of("nanoq_report.txt")
+    
+    cmd_ch = generateNanoqCommand(params.input_file, "reads.fastq.gz", "", "", "", "nanoq_report_pre_filter.txt")
+    log.info("Running Nanoq with command: ${cmd_ch}")
+    cmd_ch = Channel.of(cmd_ch)
+    
+
+    log.info("Using min_length=${params.min_length}, max_length=${params.max_length}, min_quality=${params.min_quality}")
+
+
+    //runNanoq(file_ch, "reads.fastq.gz",min_len_ch, params.max_length, min_quality_ch, coverage_ch, organism_size_ch, "")
+    //qualityControl(file_ch, min_len_ch, min_quality_ch, coverage_ch, organism_size_ch)
+}
