@@ -35,6 +35,7 @@ process junkDupesRemoval {
 
     output:
         file 'cleaned.fasta'
+        file 'without_junk_rmdup.fastq.gz'
 
     publishDir { "results/${file.name.replace('.fastq.gz','')}/quality_control" }, mode: 'copy'
     
@@ -46,16 +47,140 @@ process junkDupesRemoval {
 
 process decontamination {
     debug true
+    stageInMode 'copy'
     container 'community.wave.seqera.io/library/blast_nanoq_seqkit:cac86f202ab3ebdb'
 
     input:
+        path file
         path db
         val db_name
         path cleaned_fasta
 
+    output:
+        file 'blast_cleaned.fasta'
+        file 'cleaned_nanoq.fasta'
+    
+    publishDir { "results/${file.name.replace('.fastq.gz','')}/quality_control" }, mode: 'copy'
+
     script:
     """
-    blastn -query $cleaned_fasta -db $db/echerichia -out blast_results.txt -outfmt "6 qseqid sseqid pident length evalue bitscore" -num_threads 8  -evalue 1e-5 -perc_identity 90
+    decontamination.sh $cleaned_fasta $db/$db_name
+    """
+}
+
+process assembling {
+    debug true
+    container 'community.wave.seqera.io/library/flye:2.9.5--d577924c8416ccd8'
+
+    input:
+        path file
+        path blast_cleaned_nanoq
+
+    output:
+        file 'assembly.fasta'
+
+    publishDir { "results/${file.name.replace('.fastq.gz','')}/quality_control" }, mode: 'copy'
+    
+    script:
+    """
+    flye --nano-raw $blast_cleaned_nanoq --out-dir . --threads 8
+    """
+}
+
+process polishing {
+    debug true
+    container 'community.wave.seqera.io/library/medaka:2.0.1--c15f6748e3c63d63'
+
+    input:
+        path file
+        path blast_cleaned_fasta
+        path flye_assembly
+
+    output:
+        file 'consensus.fasta'
+
+    publishDir { "results/${file.name.replace('.fastq.gz','')}/quality_control" }, mode: 'copy'
+
+    script:
+    """
+    medaka_consensus -o . -t 8 -i $blast_cleaned_fasta -d $flye_assembly
+    """
+}
+
+
+process completness {
+    debug true
+    container 'community.wave.seqera.io/library/checkm2:1.0.2--b1ae1fcb2b8700f6'
+
+    input:
+        path file
+        path medaka_consensus
+
+    output:
+        file 'checkm2_output/quality_report.tsv'
+
+    publishDir { "results/${file.name.replace('.fastq.gz','')}/quality_control" }, mode: 'copy'
+
+    script:
+    """
+    checkm2 database --download
+    checkm2 predict --threads 30 --input $medaka_consensus --output-directory checkm2_output
+    """
+}
+
+process depth {
+    debug true
+    container 'community.wave.seqera.io/library/minimap2_samtools:03e1e7cf6ec6695d'
+
+    input:
+        path file
+        path junk_removed_fastq
+        path medaka_consensus
+
+    output:
+        file 'output.depth'
+    
+    publishDir { "results/${file.name.replace('.fastq.gz','')}/quality_control" }, mode: 'copy'
+
+    script:
+    """
+    minimap2 -ax map-ont $medaka_consensus $junk_removed_fastq > aln.sam
+
+    samtools view aln.sam --threads 4 -o seq.bam --bam
+    samtools sort seq.bam -o seq.sorted.bam
+    samtools depth -a seq.sorted.bam -o output.depth
+    """
+
+}
+
+process pyPlot {
+    debug true
+    container 'community.wave.seqera.io/library/python_pip_matplotlib_pandas_seaborn:ccd2d76e6689ee92'
+    
+    input:
+        path file
+        path depth_file
+
+    output:
+        file 'depth.png'
+
+    publishDir { "results/${file.name.replace('.fastq.gz','')}/quality_control" }, mode: 'copy'
+
+    script:
+    """
+    #!/usr/bin/env python
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import seaborn as sns
+    depth_info = pd.read_csv("output.depth", sep='\t', header=None, names=['Contig', 'Posicion', 'Profundidad'])
+    depth_info["Global_Pos"] = depth_info.index + 1
+    plt.figure(figsize=(10, 6))
+    sns.lineplot(data=depth_info, x='Global_Pos', y='Profundidad')
+    plt.xlabel("Posición Genómica (bp)")
+    plt.ylabel("Profundidad de Cobertura")
+    plt.gca().set_xticklabels(['{:,}'.format(int(x)) for x in plt.gca().get_xticks() / 1e6])
+    plt.grid(axis='y')
+    plt.savefig("depth.png")
     """
 }
 
@@ -74,5 +199,15 @@ workflow {
     
     junkDupesRemoval(file_ch, qualityControl.out[0], qualityControl.out[1])
 
-    decontamination(db_ch, db_name_ch,junkDupesRemoval.out[0])
+    decontamination(file_ch, db_ch, db_name_ch,junkDupesRemoval.out[0])
+    
+    assembling(file_ch, decontamination.out[1])
+
+    polishing(file_ch, decontamination.out[0], assembling.out[0])
+
+    completness(file_ch, polishing.out[0])
+
+    depth(file_ch, junkDupesRemoval.out[1], polishing.out[0])
+
+    pyPlot(file_ch, depth.out[0])
 }

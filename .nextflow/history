@@ -236,3 +236,37 @@
 2025-01-20 00:37:24	2.4s	reverent_snyder	OK	02c556cd7dfc21cd3b9c87b9ca96c8e7	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
 2025-01-20 00:37:41	1.9s	goofy_elion	OK	02c556cd7dfc21cd3b9c87b9ca96c8e7	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
 2025-01-20 00:47:44	2s	grave_planck	ERR	3a04617eb8236785baef8342bbd28462	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
+2025-01-20 15:32:32	3m 45s	distraught_lattes	ERR	3a04617eb8236785baef8342bbd28462	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
+2025-01-20 16:29:09	6m 18s	prickly_brahmagupta	ERR	cd4ddc979047856700e379a703330bf1	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
+2025-01-20 16:37:55	8m 20s	nostalgic_laplace	OK	e4d378d4fb62e290244dac846a958fa5	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
+2025-01-20 18:29:41	-	sleepy_fermat	-	7f3e1218fd59e8d3042388b4ee047e7c	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
+2025-01-20 18:30:22	13m 50s	thirsty_montalcini	ERR	f99eb954e6fa1f82e494e3e6f9441d34	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
+2025-01-20 18:47:36	9m 52s	reverent_babbage	ERR	f99eb954e6fa1f82e494e3e6f9441d34	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
+2025-01-20 19:00:43	9m 47s	distracted_monod	OK	e6e598ba74ff62460487fb5471aa6584	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
+2025-01-20 19:30:04	-	peaceful_laplace	-	c63a7409d87f0bbb400126ecc77a59b9	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
+2025-01-20 19:30:26	21.5s	lonely_shirley	ERR	21766020107f29c160a2f8bc3b7f0fb0	6fce4523-bc42-416c-b53e-c9661bfa77ee	nextflow run run_assembly.nf -resume
+2025-01-20 19:30:53	14m 14s	high_easley	ERR	21766020107f29c160a2f8bc3b7f0fb0	df634b82-3853-4178-a8c1-a8be60a640bb	nextflow run run_assembly.nf
+2025-01-20 19:52:42	-	golden_kowalevski	-	fefff0baf3f70c6eb72a8b8c2cda34b7	253ab4aa-023a-4cf6-8fb2-7d8fee66033a	nextflow run run_assembly.nf
+2025-01-20 19:53:30	19m 5s	marvelous_avogadro	OK	4ad14de306476c32b246cded5820906a	6b80955b-ff19-4d2c-97ec-50ddbcb8ae44	nextflow run run_assembly.nf
+2025-01-21 15:50:27	1.8s	focused_panini	ERR	8d929b5bb4174ec4cc0d1873b7513d73	90d76232-f368-4ff7-adaa-41e830f1090b	nextflow run run_assembly.nf
+2025-01-21 15:50:45	1m 15s	pensive_shockley	ERR	8d929b5bb4174ec4cc0d1873b7513d73	757c3396-4eff-4e36-b84f-e11059927d17	nextflow run run_assembly.nf
+2025-01-21 15:59:56	18m 46s	loving_mcnulty	ERR	0f912e51fef91309c6bd3c3c9d4226d2	33911cb2-1349-44cb-addb-f91c060bb4ad	nextflow run run_assembly.nf
+2025-01-21 16:48:07	19m 49s	pedantic_sax	ERR	113a29c5a46e9ac31dcf6d72d541eb05	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf
+2025-01-21 17:13:27	3.6s	exotic_ekeblad	ERR	f3ac64b5e407843e8ce817d4c5c27eaf	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 17:14:46	26.7s	soggy_cantor	ERR	e2b11409ecb3b64ae1d981e9552a700a	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 17:47:11	19m 26s	special_euclid	ERR	34e376bd62f0221d40f1dc8fdaf7550d	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 18:08:20	4m 46s	big_mercator	OK	09a35c5f5dd3438c810fea060ee9fb15	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 18:23:11	-	nauseous_bernard	-	b87e252339f39fb8aea2bb639b44d1b1	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 18:33:23	6.9s	festering_wiles	ERR	4662c6b2631a3d8d01a01ad02bcd2e52	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 18:34:45	6.2s	hungry_brattain	ERR	82fabe0abab03792bd0a58e7f41c2714	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 18:36:36	1.9s	loquacious_boyd	ERR	9eb2ca170e1cdbd2e25f9b05a056c06d	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 18:45:44	21.3s	disturbed_lorenz	ERR	82fabe0abab03792bd0a58e7f41c2714	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 18:53:29	20.9s	wise_visvesvaraya	ERR	d95f4607a706abc83b4750fc7ad4323d	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 18:54:06	3m 15s	clever_almeida	ERR	335b02e0e7737739e0a137645f4a8a7f	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 18:59:29	3m 15s	serene_wing	ERR	d5b6b8b9cc773d94a0631c6885405bd3	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 19:04:23	-	high_meninsky	-	fd25bcac1ce2359fc14f6d21efe15cf1	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 19:04:52	5.3s	small_escher	ERR	3bc6465e3b73195f267cc3205f2a0aaf	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 19:05:28	19m 9s	drunk_galileo	ERR	3bc6465e3b73195f267cc3205f2a0aaf	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 19:29:58	2.1s	sick_faggin	ERR	3ea24fa5b4d617a657faf85b93df18e3	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 19:30:35	5m 7s	insane_boltzmann	OK	1ad445802cb7c6acbba01b9296b53a55	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume
+2025-01-21 19:37:29	2s	intergalactic_volta	OK	d0958963cfe2aa195dac089ee5026629	6ac3135d-e568-4cdb-a2a6-2e5df99b24a0	nextflow run run_assembly.nf -resume

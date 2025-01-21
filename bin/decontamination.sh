@@ -1,5 +1,5 @@
 data=$1
-db=${2:-"db/escherichia"}
+db=${2:-"db/echerichia_db"}
 
 echo "Data file: $data"
 echo "Database: $db"
@@ -18,6 +18,9 @@ echo "Number of ids to be deleted: $(echo "$ids" | wc -l)"
 echo "$ids" > blast_results_ids.txt
 
 # Remove contaminated reads into new file
-echo "$(basename $data .fasta)_clean.fasta"
+echo "blast_$(basename $data .fasta).fasta"
 seqkit grep -v -f blast_results_ids.txt $data -o blast_$(basename $data)
 
+echo "Running Nanoq with blast_$(basename $data)"
+nanoq -i blast_$(basename $data) -o $(basename $data .fasta)_nanoq.fasta -vvv -r nanoq_report.txt
+echo "Saving into $(basename $data .fasta)_nanoq.fasta"
