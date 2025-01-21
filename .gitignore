@@ -4,4 +4,4 @@ results/*
 work/
 .nextflow*
 .nextflow/*
-
+backup/*
