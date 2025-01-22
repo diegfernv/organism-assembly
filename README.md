@@ -19,3 +19,34 @@ Donde:
 - `min_quality` es la calidad mínima de las lecturas a utilizar.
 - `coverage` es la cobertura mínima a utilizar.
 - `organism_size` es el tamaño del organismo a ensamblar.
+
+## Ejemplos
+Preferentemente, se recomienda tener los archivos organizados de la siguiente manera:
+```
+organism-assembly/
+├── data/
+│   ├── SE.gz
+│   └── pseudomonas-aeruginosa.fasta.gz
+├── db/
+│   ├── klebsiella_db.fasta.gz
+│   ├── echerichia_db.00.nhr
+│   ├── echerichia_db.00.nin
+│   ├── echerichia_db.00.nsq
+│   ├── echerichia_db.01.nhr
+│   ├── echerichia_db.01.nin
+│   ├── echerichia_db.01.nsq
+│   ├── ..
+│   └── echerichia_db.nto
+├── results/
+├── run_assembly.nf
+└── Dockerfile
+```
+La ejecución puede realizarse con una base de datos ya obtenida de un archivo fasta utilizando
+```bash
+nextflow run run_assembly.nf -resume --input_file data/pseudomonas-aeruginosa.fasta.gz --db_name db/echerichia_db
+```
+
+También puede realizarse con una base de datos obtenida de un archivo fasta utilizando
+```bash
+nextflow run run_assembly.nf -resume --input_file data/SE.gz --db_name klebsiella_db.fasta.gz
+```

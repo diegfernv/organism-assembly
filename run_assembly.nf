@@ -37,7 +37,7 @@ process junkDupesRemoval {
         file 'cleaned.fasta'
         file 'without_junk_rmdup.fastq.gz'
 
-    publishDir { "results/${file.name.replace('.fastq.gz','')}/quality_control" }, mode: 'copy'
+    publishDir { "results/${file.name.replaceAll(/\.fastq\.gz$|\.gz$/,'')}/quality_control" }, mode: 'copy'
     
     script:
     """
@@ -199,15 +199,15 @@ workflow {
     
     junkDupesRemoval(file_ch, qualityControl.out[0], qualityControl.out[1])
 
-    decontamination(file_ch, db_ch, db_name_ch,junkDupesRemoval.out[0])
+    //decontamination(file_ch, db_ch, db_name_ch,junkDupesRemoval.out[0])
     
-    assembling(file_ch, decontamination.out[1])
+    //assembling(file_ch, decontamination.out[1])
 
-    polishing(file_ch, decontamination.out[0], assembling.out[0])
+    //polishing(file_ch, decontamination.out[0], assembling.out[0])
 
-    completness(file_ch, polishing.out[0])
+    //completness(file_ch, polishing.out[0])
 
-    depth(file_ch, junkDupesRemoval.out[1], polishing.out[0])
+    //depth(file_ch, junkDupesRemoval.out[1], polishing.out[0])
 
-    pyPlot(file_ch, depth.out[0])
+    //pyPlot(file_ch, depth.out[0])
 }

@@ -1,9 +1,27 @@
 data=$1
-db=${2:-"db/echerichia_db"}
+db=$2
 
+db_dir=$(dirname "$db")
+db_file=$(basename "$db")
+db_basename="${db_file%.*}"
+
+if [[ "$db_file" == *.gz ]]; then
+    echo "Descomprimiendo archivo $db_file..."
+    echo "gunzip -c $db > $db_dir/${db_basename}.fasta"
+    gunzip -c "$db" > "$db_dir/${db_basename}.fasta" 
+    db_final="$db_dir/${db_basename}"
+    echo "makeblastdb -in $db_final.fasta -dbtype nucl -out $db_final"
+    makeblastdb -in "$db_final.fasta" -dbtype "nucl" -out $db_final
+elif [[ "$db_file" == *.fasta ]]; then
+    echo "Archivo .fasta detectado, no se necesita descompresión."
+    db_final="$db" 
+    makeblastdb -in "$db_final" -dbtype "nucl" -out ${db_final%.*}
+else
+    db_final="$db"
+fi
 echo "Data file: $data"
-echo "Database: $db"
-blastn -query "$data" -db "$db" -out blast_results.txt -outfmt "6 qseqid sseqid pident length evalue bitscore" -num_threads 8  -evalue 1e-5 -perc_identity 90
+echo "Database: $db_final"
+blastn -query "$data" -db "$db_final" -out blast_results.txt -outfmt "6 qseqid sseqid pident length evalue bitscore" -num_threads 8  -evalue 1e-5 -perc_identity 90
 
 echo "Getting ids from blast results"
 # Get ids from results
