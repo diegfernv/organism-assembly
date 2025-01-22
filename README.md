@@ -43,7 +43,7 @@ organism-assembly/
 ```
 La ejecución puede realizarse con una base de datos ya obtenida de un archivo fasta utilizando
 ```bash
-nextflow run run_assembly.nf -resume --input_file data/pseudomonas-aeruginosa.fasta.gz --db_name db/echerichia_db
+nextflow run run_assembly.nf -resume --input_file data/pseudomonas-aeruginosa.fasta.gz --db_name echerichia_db
 ```
 
 También puede realizarse con una base de datos obtenida de un archivo fasta utilizando
